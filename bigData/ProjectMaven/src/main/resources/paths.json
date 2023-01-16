@@ -1,0 +1,197 @@
+{
+  "P1": {
+    "sensor": "camera",
+    "files" : [
+      {
+        "name": "P1",
+        "type": "type1"
+      }
+    ]
+  },
+  "P2": {
+    "sensor": "radar",
+    "files": [
+      {
+        "name": "P2_semaine_1",
+        "type": "type1"
+      },
+      {
+        "name": "P2_semaine_2",
+        "type": "type1"
+      }
+    ]
+  },
+  "P3": {
+    "sensor": "radar",
+    "files": [
+      {
+        "name": "Mixtra_Sortie_Fac_1",
+        "type": "type2"
+      },
+      {
+        "name": "Mixtra_Sortie_Fac_2",
+        "type": "type2"
+      },
+      {
+        "name": "Mixtra_Sortie_Fac_3",
+        "type": "type2"
+      }
+    ]
+  },
+  "P4": {
+    "sensor": "radar",
+    "files": [
+      {
+        "name": "P4_Sortie_Fac",
+        "type": "type3"
+      }
+    ]
+  },
+  "P5": {
+    "sensor": "radar",
+    "files": [
+      {
+        "name": "P5",
+        "type": "type3"
+      }
+    ]
+  },
+  "P9": {
+    "sensor": "tube",
+    "files": [
+      {
+        "name": "P9_Vers_Fac_1",
+        "type": "type1"
+      },
+      {
+        "name": "P9_Vers_Talence_1",
+        "type": "type1"
+      },
+      {
+        "name": "P9_Vers_Fac_2",
+        "type": "type1"
+      },
+      {
+        "name": "P9_Vers_Talence_2",
+        "type": "type1"
+      }
+    ]
+  },
+  "P10": {
+    "sensor": "camera",
+    "files": [
+      {
+        "name": "P10",
+        "type": "type1"
+      }
+    ]
+  },
+  "P12": {
+    "sensor": "camera",
+    "files": [
+      {
+        "name": "P12",
+        "type": "type1"
+      }
+    ]
+  },
+  "P13": {
+    "sensor": "camera",
+    "files": [
+      {
+        "name": "P13",
+        "type": "type1"
+      }
+    ]
+  },
+  "P17": {
+    "sensor": "radar",
+    "files": [
+      {
+        "name": "P17_Vers_P16",
+        "type": "type3"
+      },
+      {
+        "name": "P17_Vers_Avenue_Schweitzer",
+        "type": "type3"
+      }
+    ]
+  },
+  "P19": {
+    "sensor": "tube",
+    "files": [
+      {
+        "name": "P19_Entree",
+        "type": "type1"
+      },
+      {
+        "name": "P19_Sortie",
+        "type": "type1"
+      }
+    ]
+  },
+  "P20": {
+    "sensor": "camera",
+    "files": [
+      {
+        "name": "P20",
+        "type": "type1"
+      }
+    ]
+  },
+  "P23": {
+    "sensor": "tube",
+    "files": [
+      {
+        "name": "P23_Vers_COSEC",
+        "type": "type1"
+      },
+      {
+        "name": "P23_Vers_BEC_1",
+        "type": "type1"
+      },
+      {
+        "name": "P23_Vers_BEC_2",
+        "type": "type1"
+      }
+    ]
+  },
+  "P24": {
+    "sensor": "tube",
+    "files": [
+      {
+        "name": "P24_Vers_Fac",
+        "type": "type1"
+      },
+      {
+        "name": "P24_Vers_Rocade",
+        "type": "type1"
+      }
+    ]
+  },
+  "P26": {
+    "sensor": "tube",
+    "files": [
+      {
+        "name": "P26_Vers_Fac_1",
+        "type": "type1"
+      },
+      {
+        "name": "P26_Vers_Fac_2",
+        "type": "type1"
+      },
+      {
+        "name": "P26_Vers_Fac_3",
+        "type": "type1"
+      },
+      {
+        "name": "P26_Vers_Rocade_1",
+        "type": "type1"
+      },
+      {
+        "name": "P26_Vers_Rocade_2",
+        "type": "type1"
+      }
+    ]
+  }
+}

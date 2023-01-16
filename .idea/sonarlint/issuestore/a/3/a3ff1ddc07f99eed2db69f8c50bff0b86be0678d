@@ -1,0 +1,36 @@
+
+r
+java:S1488)"\Immediately return this expression instead of assigning it to the temporary variable "date".(Ì­éí
+U
+java:S1118":Add a private constructor to hide the implicit public one.(²™‡‘úÿÿÿÿ
+N	java:S106,"9Replace this use of System.out or System.err by a logger.(½Ú‘ë
+M
+java:S18548"7Remove this useless assignment to local variable "ser".(¾ÿ¿
+S
+java:S18543"8Remove this useless assignment to local variable "sens".(Ï¡‡¨şÿÿÿÿ
+D
+java:S14813")Remove this unused "sens" local variable.(Ï¡‡¨şÿÿÿÿ
+>
+java:S14818"(Remove this unused "ser" local variable.(¾ÿ¿
+S
+java:S1854F"8Remove this useless assignment to local variable "voie".(„±‡úÿÿÿÿ
+D
+java:S1481F")Remove this unused "voie" local variable.(„±‡úÿÿÿÿ
+a
+java:S1854Y"FRemove this useless assignment to local variable "remarquesCyclistes".(ÏÚÌÍøÿÿÿÿ
+S
+java:S1854\"=Remove this useless assignment to local variable "direction".(òôøÅ
+X
+java:S1854^"=Remove this useless assignment to local variable "direction".(æùíşÿÿÿÿ
+R
+java:S1481Y"7Remove this unused "remarquesCyclistes" local variable.(ÏÚÌÍøÿÿÿÿ
+I
+java:S1481Z".Remove this unused "direction" local variable.(©©ˆƒÿÿÿÿÿ
+C
+java:S1068"(Remove this unused "date" private field.(£¬”ùÿÿÿÿ
+>
+java:S1068"(Remove this unused "time" private field.(—Š×Ÿ
+E
+java:S1068"/Remove this unused "vehicleType" private field.(¿¶ÓÄ
+?
+java:S1068")Remove this unused "speed" private field.(Ù¸õ
