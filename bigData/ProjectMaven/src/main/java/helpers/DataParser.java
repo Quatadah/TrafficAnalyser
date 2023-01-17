@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DataParser {
 
-    private List<CommonData> camerasData = new ArrayList<>();
+    private List<CommonData> commonData = new ArrayList<>();
 
     public List<CommonData> getCommonData(List<Folder> posts){
         JsonCsvReader jsonCsvReader = new JsonCsvReader();
@@ -24,7 +24,7 @@ public class DataParser {
         posts.forEach(post->
         {
             if (post.getSensor().equals("camera")) {
-                System.out.println(post + post.getFiles().get(0).toString());
+               // System.out.println(post + post.getFiles().get(0).toString());
                 for (CSVFile CSVFile : post.getFiles()) {
                     String fileName = CSVFile.getName();
                     String path = jsonCsvReader.getCvsFolderPath().concat(post.getName() + "/" + fileName+".csv") ;
@@ -41,7 +41,7 @@ public class DataParser {
                                     row[i] = r.get(i);
                                 }
                                 if (dataCleaner.parseCamera(row,header) != null)
-                                    camerasData.add(dataCleaner.parseCamera(row,header));
+                                    commonData.add(dataCleaner.parseCamera(row,header));
                             }
                             parser.close();
                         }
@@ -49,9 +49,59 @@ public class DataParser {
                         e.printStackTrace();
                     }
                 }
-            }
+            }else if (post.getSensor().equals("tube")) {
+                for (CSVFile CSVFile : post.getFiles()) {
+                    String fileName = CSVFile.getName();
+                    String path = jsonCsvReader.getCvsFolderPath().concat(post.getName() + "/" + fileName+".csv") ;
+                    CSVParser parser;
+                    try {
+                        parser = CSVParser.parse(new File(path), StandardCharsets.UTF_8, CSVFormat.DEFAULT);
+                        List<CSVRecord> records = parser.getRecords();
+                        int count = records.size();
+                        for (CSVRecord r : records ) {
+                            if(r.getRecordNumber()< count && r.getRecordNumber()>2){
+                                String [] row = new String[r.size()];
+                                for (int i = 0; i < r.size(); i++) {
+                                    row[i] = r.get(i);
+                                }
+                                if (dataCleaner.parseTube(row,fileName) != null)
+                                    commonData.add(dataCleaner.parseTube(row,fileName));
+                            }
+                            parser.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+            }else if (post.getSensor().equals("radar")) {
+             System.out.println(post + post.getFiles().get(0).toString());
+                for (CSVFile CSVFile : post.getFiles()) {
+                    String fileName = CSVFile.getName();
+                    String path = jsonCsvReader.getCvsFolderPath().concat(post.getName() + "/" + fileName+".csv") ;
+                    CSVParser parser;
+                    try {
+                        parser = CSVParser.parse(new File(path), StandardCharsets.UTF_8, CSVFormat.DEFAULT);
+                        List<CSVRecord> records = parser.getRecords();
+                        int count = records.size();
+                        for (CSVRecord r : records ) {
+                            if(r.getRecordNumber()< count && r.getRecordNumber()>2){
+                                String [] row = new String[r.size()];
+                                for (int i = 0; i < r.size(); i++) {
+                                    row[i] = r.get(i);
+                                }
+                                if (dataCleaner.parseRadar(row,CSVFile.getType(),fileName) != null)
+                                    System.out.println(dataCleaner.parseRadar(row,CSVFile.getType(),fileName));
+                            }
+                            parser.close();
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+        }
         });
-        return camerasData;
+        return commonData;
     }
 }
 
