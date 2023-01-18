@@ -59,7 +59,7 @@ const SideBar = (props: Props) => {
                         alignItems: "center",
                         justifyContent: "space-between",
                         height: "100%",
-                        backgroundColor: theme.palette.background.default,
+                        backgroundColor: theme.palette.background.paper,
                     }}
                 >
                     <IconButton onClick={toggleDrawer(false)}>
