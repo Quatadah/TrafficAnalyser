@@ -41,10 +41,10 @@ const SideBar = (props: Props) => {
             <Drawer
                 variant="persistent"
                 sx={{
-                    width: 80,
+                    width: 60,
                     flexShrink: 0,
                     "& .MuiDrawer-paper": {
-                        width: 80,
+                        width: 60,
                         boxSizing: "border-box",
                     },
                 }}
@@ -77,7 +77,7 @@ const SideBar = (props: Props) => {
                             <DashboardIcon color="primary" />
                         </IconButton>
                         <IconButton size="large">
-                            <SettingsIcon color="inherit" />
+                            <SettingsIcon color="disabled" />
                         </IconButton>
                     </Box>
                     <Box></Box>

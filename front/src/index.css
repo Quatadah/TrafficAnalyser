@@ -21,8 +21,10 @@ code {
         saturate(0.05) brightness(0.7);
 }
 
-@media (prefers-color-scheme: dark) {
-    .map-tiles {
-        filter: var(--map-tiles-filter, none);
-    }
+.map-tiles-dark {
+    filter: var(--map-tiles-filter, none);
+}
+
+.map-tiles-light {
+    filter: none;
 }

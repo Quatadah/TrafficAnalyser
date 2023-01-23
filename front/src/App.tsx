@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import "./App.css";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -6,33 +6,33 @@ import SideBar from "./components/SideBar";
 import { Box } from "@mui/system";
 import Dashboard from "./components/Dashboard";
 
-const darkTheme = createTheme({
-    palette: {
-        mode: "dark",
-
-        primary: {
-            main: "#108F88",
-        },
-        background: {
-            default: "#1A1A1C",
-        },
-    },
-    typography: {
-        fontFamily: "Poppins",
-    },
-    // change drawer background color
-    components: {
-        MuiDrawer: {
-            styleOverrides: {
-                paper: {
-                    backgroundColor: "#141414",
-                },
-            },
-        },
-    },
-});
-
 const App = () => {
+    const [mode, setMode] = useState<"light" | "dark">("dark");
+
+    const handleThemeChange = () => {
+        setMode(mode === "dark" ? "light" : "dark");
+    };
+
+    const theme = useMemo(
+        () =>
+            createTheme({
+                palette: {
+                    mode,
+                    primary: {
+                        main: "#108F88",
+                    },
+                    background: {
+                        default: mode === "dark" ? "#1A1A1C" : "#fff",
+                        paper: mode === "dark" ? "#121212" : "#eee",
+                    },
+                },
+                typography: {
+                    fontFamily: "Poppins",
+                },
+            }),
+        [mode]
+    );
+
     useEffect(() => {
         (async () => {
             const WebFont = await import("webfontloader");
@@ -45,7 +45,7 @@ const App = () => {
     }, []);
 
     return (
-        <ThemeProvider theme={darkTheme}>
+        <ThemeProvider theme={theme}>
             <CssBaseline />
             <Box>
                 <Box
@@ -62,7 +62,7 @@ const App = () => {
                             padding: 3,
                         }}
                     >
-                        <Dashboard />
+                        <Dashboard onThemeChange={handleThemeChange} />
                     </Box>
                 </Box>
             </Box>
