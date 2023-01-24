@@ -19,7 +19,10 @@ const App = () => {
                 palette: {
                     mode,
                     primary: {
-                        main: "#108F88",
+                        main: "#31978C",
+                    },
+                    secondary: {
+                        main: "#435055",
                     },
                     background: {
                         default: mode === "dark" ? "#1A1A1C" : "#fff",
@@ -59,7 +62,7 @@ const App = () => {
                         className="h-screen"
                         sx={{
                             flexGrow: 1,
-                            padding: 3,
+                            padding: 1,
                         }}
                     >
                         <Dashboard onThemeChange={handleThemeChange} />

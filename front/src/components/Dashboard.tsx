@@ -1,23 +1,18 @@
-import {
-    ButtonGroup,
-    FormControlLabel,
-    FormGroup,
-    IconButton,
-    Switch,
-    Typography,
-    styled,
-    useTheme,
-} from "@mui/material";
+import { ButtonGroup, IconButton, Typography, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import React, { LegacyRef, useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import Card from "./Card";
 import Map from "./Map";
-import * as d3 from "d3";
 import LineChartExample from "./charts/Linecharts";
 import BarChartExample from "./charts/Barcharts";
 import PieChartExample from "./charts/Piecharts";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
+import RadarChart from "./charts/Radarcharts";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+import TextField from "@mui/material/TextField";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 type Props = {
     onThemeChange: (theme: string) => void;
@@ -26,6 +21,7 @@ type Props = {
 const Dashboard = ({ onThemeChange }: Props) => {
     const [date, setDate] = React.useState(new Date().toLocaleDateString());
     const [time, setTime] = React.useState(new Date().toLocaleTimeString());
+    const [value, setValue] = React.useState<Date | null>(new Date());
 
     const theme = useTheme();
 
@@ -48,25 +44,22 @@ const Dashboard = ({ onThemeChange }: Props) => {
                 <Typography variant="h6" color="primary" fontWeight="bold">
                     Traffic Analyser
                 </Typography>
-                <ButtonGroup
-                    className="flex justify-center items-center space-x-2"
-                    variant="text"
-                    color="primary"
-                >
-                    <Typography
-                        variant="body1"
-                        color="primary"
-                        fontWeight={"bold"}
+                <Typography variant="h6" color="secondary" fontWeight={"bold"}>
+                    {time}
+                </Typography>
+                <Box className="flex justify-center items-center space-x-2">
+                    <LocalizationProvider
+                        size="small"
+                        dateAdapter={AdapterLuxon}
                     >
-                        {date}
-                    </Typography>
-                    <Typography
-                        variant="body1"
-                        color="primary"
-                        fontWeight={"bold"}
-                    >
-                        {time}
-                    </Typography>
+                        <DatePicker
+                            value={value}
+                            onChange={(newValue) => {
+                                setValue(newValue);
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                        />
+                    </LocalizationProvider>
                     <IconButton
                         onClick={() => {
                             onThemeChange(theme.palette.mode);
@@ -79,7 +72,7 @@ const Dashboard = ({ onThemeChange }: Props) => {
                             <DarkModeIcon />
                         )}
                     </IconButton>
-                </ButtonGroup>
+                </Box>
             </Box>
             <Box className="flex space-x-3 w-full md:h-4/5 h-1/5">
                 <Box className="w-1/4 h-full">
@@ -92,7 +85,7 @@ const Dashboard = ({ onThemeChange }: Props) => {
                     <Card chart={PieChartExample} />
                 </Box>
                 <Box className="w-1/4">
-                    <Card></Card>
+                    <Card chart={RadarChart}></Card>
                 </Box>
             </Box>
             <Box id="aze" className="flex space-x-3 w-full h-full">

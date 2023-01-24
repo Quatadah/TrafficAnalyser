@@ -1,5 +1,5 @@
 import { Typography } from "@mui/material";
-import { height } from "@mui/system";
+import { useTheme } from "@mui/material/styles";
 import React from "react";
 import {
     BarChart,
@@ -33,6 +33,7 @@ type Props = {
 };
 
 const BarChartExample: React.FC = ({ width = 700, height = 400 }: Props) => {
+    const theme = useTheme();
     return (
         <>
             <Typography variant="body1">BarChart</Typography>
@@ -42,8 +43,8 @@ const BarChartExample: React.FC = ({ width = 700, height = 400 }: Props) => {
                 <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="sales" fill="#8884d8" />
-                <Bar dataKey="profit" fill="#82ca9d" />
+                <Bar dataKey="sales" fill={theme.palette.primary.main} />
+                <Bar dataKey="profit" fill={theme.palette.secondary.main} />
             </BarChart>
         </>
     );

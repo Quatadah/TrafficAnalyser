@@ -1,4 +1,5 @@
 import { Typography } from "@mui/material";
+import { useTheme } from "@mui/material/styles";
 import React, { PureComponent } from "react";
 import { PieChart, Pie, Sector, Cell, ResponsiveContainer } from "recharts";
 
@@ -28,6 +29,7 @@ type Props = {
 };
 
 const PieCharts = ({ width = 700, height = 400 }: Props) => {
+    const theme = useTheme();
     return (
         <>
             <Typography variant="body1">PieChart</Typography>
@@ -38,7 +40,7 @@ const PieCharts = ({ width = 700, height = 400 }: Props) => {
                     cx="50%"
                     cy="50%"
                     outerRadius={60}
-                    fill="#8884d8"
+                    fill={theme.palette.primary.main}
                 />
                 <Pie
                     data={data02}
@@ -47,7 +49,7 @@ const PieCharts = ({ width = 700, height = 400 }: Props) => {
                     cy="50%"
                     innerRadius={70}
                     outerRadius={90}
-                    fill="#82ca9d"
+                    fill={theme.palette.secondary.main}
                     label
                 />
             </PieChart>

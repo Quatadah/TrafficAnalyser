@@ -1,4 +1,5 @@
 import React from "react";
+import { useTheme } from "@mui/material/styles";
 import {
     LineChart,
     Line,
@@ -35,6 +36,7 @@ type Props = {
 };
 
 const RechartsExample: React.FC = ({ width, height }: Props) => {
+    const theme = useTheme();
     return (
         <>
             <Typography variant="body1">LineChart</Typography>
@@ -45,8 +47,16 @@ const RechartsExample: React.FC = ({ width, height }: Props) => {
                     <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
                     <Tooltip />
                     <Legend />
-                    <Line type="monotone" dataKey="uv" stroke="#8884d8" />
-                    <Line type="monotone" dataKey="pv" stroke="#82ca9d" />
+                    <Line
+                        type="monotone"
+                        dataKey="uv"
+                        stroke={theme.palette.primary.main}
+                    />
+                    <Line
+                        type="monotone"
+                        dataKey="pv"
+                        stroke={theme.palette.secondary.main}
+                    />
                 </LineChart>
             </ResponsiveContainer>
         </>
