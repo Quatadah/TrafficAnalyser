@@ -53,12 +53,14 @@ public class DataCleaner {
             String direction;
             if (row[4].equals("1") || row[4].equals("x")) {
                     if (header[4].equals("Sortant")) {
-                        direction = "vers sortie du site";
-                    } else {
-                        direction = header[4].replace("�","é");;
+                        direction = "vers Sortie Fac";
+                    }else if(header[4].equals("vers entr�e")) {
+                        direction = "vers Entrée Fac";
+                    }else {
+                            direction = header[4].replace("�","é");
                     }
             } else if (row[4].equals("E")) {
-                    direction = "vers entrée du site";
+                    direction = "vers Entrée Fac";
             } else if (row[4].equals("S1")) {
                     direction = "vers parking cafeteria";
             } else if (row[4].equals("S2")) {
@@ -66,7 +68,14 @@ public class DataCleaner {
             } else if (row[4].equals("S3")) {
                     direction = "vers parking des professeurs";
             } else {
-                    direction = header[3].replace("�","é"); }
+                if (header[3].equals("Entrant")) {
+                    direction = "vers Entrée Fac";
+                }else if(header[3].equals("vers sortie")) {
+                    direction = "vers Sortie Fac";
+                }else {
+                    direction = header[3].replace("�","é");
+                }
+            }
             String speed = "0"; // La vitesse n'est pas disponible dans ces données
             return new CommonData("Camera",date, time, vehicleType, speed, direction);
         }else {
@@ -95,7 +104,7 @@ public class DataCleaner {
                 if (row[2].contains("Entr")) {
                     direction="vers Entrée Fac";
                 }else{
-                    direction = "vers " +row [2];
+                    direction = "vers Sortie Fac";
                 }
         }else if (type.equals("type2")){
             date = parseDate(row[0], "dd/MM/yy");
@@ -154,7 +163,7 @@ public class DataCleaner {
             String time = formatTime(heureMinute.split(":")[0],heureMinute.split(":")[1],seconde,centieme);
             String direction;
             if (fileName.contains("Fac")) {
-                direction = "vers Fac";
+                direction = "vers Entrée Fac";
             } else if (fileName.contains("Rocade")) {
                 direction = "vers Rocade";
             } else if (fileName.contains("Talence")) {
@@ -164,9 +173,9 @@ public class DataCleaner {
             } else if (fileName.contains("BEC")) {
                 direction = "vers BEC";
             } else if (fileName.contains("Sortie")) {
-                direction = "vers Sortie";
+                direction = "vers Sortie Fac";
             } else {
-                direction = "vers Entrée";
+                direction = "vers Entrée Fac";
             }
             return new CommonData("Tube", date, time, vehicleType, speed, direction);
     }

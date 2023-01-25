@@ -7,6 +7,7 @@ public class CommonData {
     private String vehicleType; // VL PL 2R
     private String speed;
     private String direction;
+    private String post;
 
 
     public CommonData(String sensor,String date, String time, String vehicleType, String speed,String direction){
@@ -17,17 +18,20 @@ public class CommonData {
         this.direction = direction;
         this.sensorType = sensor;
     }
+    public CommonData(String[] data){
+        this.sensorType = data[0];
+        this.date = data[1];
+        this.time = data[2];
+        this.vehicleType = data[3];
+        this.speed = data[4];
+        this.direction = data[5];
+        this.post= data[6];
+    }
+
 
     @Override
     public String toString() {
-        return "CommonData{" +
-                "type='" + sensorType + '\'' +
-                "date='" + date + '\'' +
-                ", time='" + time + '\'' +
-                ", vehicleType='" + vehicleType + '\'' +
-                ", speed='" + speed + '\'' +
-                ", direction='" + direction + '\'' +
-                '}';
+        return sensorType+","+date+","+time+","+vehicleType+","+speed+","+direction+","+post;
     }
 
     public String print() {

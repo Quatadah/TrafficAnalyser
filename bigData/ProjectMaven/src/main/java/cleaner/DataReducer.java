@@ -13,6 +13,6 @@ public class DataReducer extends Reducer<Text, Text, Text, Text> {
         for (Text value : values) {
             val = value.toString();
         }
-        context.write(new Text(String.valueOf(uniqueId.incrementAndGet())), new Text(val.toString()));
+        context.write(new Text(String.valueOf(uniqueId.incrementAndGet())), new Text(val));
     }
 }

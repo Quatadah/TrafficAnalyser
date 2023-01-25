@@ -14,7 +14,9 @@ import org.apache.hadoop.io.FloatWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.SequenceFileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.mapreduce.lib.output.SequenceFileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.json.simple.parser.ParseException;
 
@@ -37,8 +39,8 @@ public class App {
                 List<Folder> folders = jsonCsvReader.readJson();
                 Configuration conf = new Configuration();
 
-                Job job = Job.getInstance(conf, "Data Clean");
-                Job job1 = Job.getInstance(conf, "Speed Average By Type");
+                /*Job job = Job.getInstance(conf, "Data Clean");
+                Job job1 = Job.getInstance(conf,"Speed Average By Type");
                 Job job2 = Job.getInstance(conf,"Type vehicule by direction and date");
                 Job job3 = Job.getInstance(conf,"Trafic By Date by Direction By type");
 
@@ -46,45 +48,52 @@ public class App {
                 job1.setJarByClass(App.class);
                 job2.setJarByClass(App.class);
                 job3.setJarByClass(App.class);
-                
+
 
                 job.setOutputKeyClass(Text.class);
                 job.setOutputValueClass(Text.class);
-                job.setOutputFormatClass(TextOutputFormat.class);
+                job.setOutputFormatClass(SequenceFileOutputFormat.class);
+
                 job1.setOutputKeyClass(Text.class);
                 job1.setOutputValueClass(FloatWritable.class);
-                job1.setOutputFormatClass(TextOutputFormat.class);
+                job1.setInputFormatClass(SequenceFileInputFormat.class);
+                job1.setOutputFormatClass(SequenceFileOutputFormat.class);
+
                 job2.setOutputKeyClass(Text.class);
                 job2.setOutputValueClass(Text.class);
-                job2.setOutputFormatClass(TextOutputFormat.class);
+                job2.setInputFormatClass(SequenceFileInputFormat.class);
+                job2.setOutputFormatClass(SequenceFileOutputFormat.class);
+
                 job3.setOutputKeyClass(Text.class);
                 job3.setOutputValueClass(Text.class);
-                job3.setOutputFormatClass(TextOutputFormat.class);
+                job3.setInputFormatClass(SequenceFileInputFormat.class);
+                job3.setOutputFormatClass(SequenceFileOutputFormat.class);
+
+
+                job.getConfiguration().set("posts",jsonCsvReader.jsontoString());
 
                try {
                     for(Folder folder : folders) {
                         for(CSVFile csvFile : folder.getFiles()) {
                             Path inputPath = new Path(args[0] + folder.getName() + "/" + csvFile.getName() + ".csv");
                             FileInputFormat.addInputPath(job, inputPath);
-                            FileInputFormat.addInputPath(job1, inputPath);
-                            FileInputFormat.addInputPath(job2, inputPath);
-                            FileInputFormat.addInputPath(job3, inputPath);
                         }
                     }
                     FileOutputFormat.setOutputPath(job, new Path(args[1]));
-                    FileOutputFormat.setOutputPath(job1, new Path(args[2]));
-                    FileOutputFormat.setOutputPath(job2, new Path(args[3]));
-                    FileOutputFormat.setOutputPath(job3, new Path(args[4]));
                }
                 catch (Exception e) {
                     System.out.println(" bad arguments, waiting for [inputURI] & [outputURI]");
                     return ;
                 }
 
-                job.getConfiguration().set("posts",jsonCsvReader.jsontoString());
-                job1.getConfiguration().set("posts",jsonCsvReader.jsontoString());
-                job2.getConfiguration().set("posts",jsonCsvReader.jsontoString());
-                job3.getConfiguration().set("posts",jsonCsvReader.jsontoString());
+
+                FileInputFormat.addInputPath(job1, new Path(args[1]));
+                FileInputFormat.addInputPath(job2, new Path(args[1]));
+                FileInputFormat.addInputPath(job3, new Path(args[1]));
+
+                FileOutputFormat.setOutputPath(job1, new Path(args[2]));
+                FileOutputFormat.setOutputPath(job2, new Path(args[3]));
+                FileOutputFormat.setOutputPath(job3, new Path(args[4]));
 
 
                 job.setMapperClass(DataMapper.class);
@@ -96,23 +105,44 @@ public class App {
                 job3.setMapperClass(TraficByDateHourTypeAndSensor.TraficByDateHourTypeAndSensorMapper.class);
                 job3.setReducerClass(TraficByDateHourTypeAndSensor.TraficByDateHourTypeAndSensorReducer.class);
 
+
                 job.waitForCompletion(true);
                 job1.waitForCompletion(true);
                 job2.waitForCompletion(true);
-                job3.waitForCompletion(true);
+                job3.waitForCompletion(true);*/
 
-                WriteToHBase writeToHBase = new WriteToHBase();
+               WriteToHBase writeToHBase = new WriteToHBase();
                Configuration config =  HBaseConfiguration.create();
-               Job jobHbase = Job.getInstance(config, "Stock in Hbase");
-               jobHbase.setJarByClass(WriteToHBase.class);
+
+               Job jobSpeedAverage = Job.getInstance(config, "Stock speed Average");
+               Job jobTypeByDirection = Job.getInstance(config, "type vehicule by date and direction");
+
+               jobSpeedAverage.setJarByClass(WriteToHBase.class);
+               jobTypeByDirection.setJarByClass(WriteToHBase.class);
+
                Connection connection = ConnectionFactory.createConnection(config);
-               writeToHBase.createTable(connection);
-               FileInputFormat.addInputPath(jobHbase, new Path(args[2]));
-               jobHbase.setInputFormatClass(TextInputFormat.class);
-               jobHbase.setMapOutputKeyClass(Text.class);
-               jobHbase.setMapOutputValueClass(FloatWritable.class);
-               TableMapReduceUtil.initTableReducerJob(writeToHBase.getTABLE_NAME(), WriteToHBase.WriteReducer.class, jobHbase);
-               jobHbase.waitForCompletion(true);
+
+               writeToHBase.createTable(connection,writeToHBase.getTABLE_SPEED());
+               writeToHBase.createTable(connection,writeToHBase.getTABLE_TYPE());
+
+
+               FileInputFormat.addInputPath(jobSpeedAverage, new Path(args[2]));
+               FileInputFormat.addInputPath(jobTypeByDirection, new Path(args[3]));
+
+               jobSpeedAverage.setInputFormatClass(SequenceFileInputFormat.class);
+               jobSpeedAverage.setMapOutputKeyClass(Text.class);
+               jobSpeedAverage.setMapOutputValueClass(FloatWritable.class);
+
+                jobTypeByDirection.setInputFormatClass(SequenceFileInputFormat.class);
+                jobTypeByDirection.setMapOutputKeyClass(Text.class);
+                jobTypeByDirection.setMapOutputValueClass(Text.class);
+
+               TableMapReduceUtil.initTableReducerJob(writeToHBase.getTABLE_SPEED(), WriteToHBase.speedAverageReducer.class, jobSpeedAverage);
+                TableMapReduceUtil.initTableReducerJob(writeToHBase.getTABLE_TYPE(), WriteToHBase.typeByDateByDirectionReducer.class, jobTypeByDirection);
+
+                jobSpeedAverage.waitForCompletion(true);
+                jobTypeByDirection.waitForCompletion(true);
+
     }
 }
 

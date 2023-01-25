@@ -1,72 +1,32 @@
 package analyzers;
 
-import helpers.DataCleaner;
-import helpers.JsonHandler;
+
 import models.CommonData;
-import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.FloatWritable;
-import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.InputSplit;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
-import org.apache.hadoop.mapreduce.lib.input.FileSplit;
-import org.json.simple.parser.ParseException;
+
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Locale;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class SpeedAverageByType {
 
-    public static  class SpeedAverageByTypeMapper  extends Mapper<LongWritable, Text, Text, FloatWritable> {
-        private String[] header;
+    public static  class SpeedAverageByTypeMapper  extends Mapper<Text, Text, Text, FloatWritable> {
+
         private CommonData commonData ;
-        private String fileName;
 
         @Override
-        public void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-            try {
-                InputSplit split = context.getInputSplit();
-                if (split instanceof FileSplit) {
-                    Path filePath = ((FileSplit) split).getPath();
-                    fileName = filePath.getName();
-                }
-                DataCleaner dataCleaner=new DataCleaner();
-                String jsonString = context.getConfiguration().get("posts");
-                JsonHandler jsonHandler = new JsonHandler(jsonString);
-                String sensorType = jsonHandler.getSensorType(fileName);
+        public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
 
                 String[] data = value.toString().split(",");
+                commonData = new CommonData(data);
                 Text type = new Text();
-
-                if (sensorType.equals("tube") && value !=null){
-                    if (key.get() == 0 ) return;
-                    commonData = dataCleaner.cleanTube(data,fileName);
-                }else if (sensorType.equals("radar") && value !=null){
-                    if (key.get() == 0 ) return;
-                    commonData = dataCleaner.cleanRadar(data,jsonHandler.getFileType(fileName),fileName);
-                } else if (sensorType.equals("camera") && value !=null){
-                    if (key.get() == 0 ){
-                        header = value.toString().split(",");
-                    }else{
-                        if (data.length == 4){
-                            String[] newData = Arrays.copyOf(data, data.length + 1);
-                            newData[data.length] = " ";
-                            commonData = dataCleaner.cleanCamera(newData,header);
-                        }else{
-                            commonData = dataCleaner.cleanCamera(data,header);
-                        }
-                    }
-                }
                 if (commonData != null ){
                     type.set(commonData.getVehicleType().toUpperCase(Locale.ROOT));
                     context.write(type, new FloatWritable(Float.parseFloat(commonData.getSpeed()))); }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
         }
 
     }
@@ -81,6 +41,7 @@ public class SpeedAverageByType {
                 sum += val.get();
                 count++;}
             }
+            if (!key.equals("UT") || !key.equals("EDPM"))
             context.write(key, new FloatWritable(sum/count));
         }
     }

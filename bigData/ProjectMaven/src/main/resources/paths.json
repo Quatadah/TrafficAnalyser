@@ -8,19 +8,6 @@
       }
     ]
   },
-  "P2": {
-    "sensor": "radar",
-    "files": [
-      {
-        "name": "P2_semaine_1",
-        "type": "type1"
-      },
-      {
-        "name": "P2_semaine_2",
-        "type": "type1"
-      }
-    ]
-  },
   "P3": {
     "sensor": "radar",
     "files": [
