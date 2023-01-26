@@ -8,6 +8,8 @@ import {
     PolarRadiusAxis,
     ResponsiveContainer,
 } from "recharts";
+import { EntryExit } from "../../services/entryExit";
+import Typography from "@mui/material/Typography";
 
 const data = [
     {
@@ -51,30 +53,41 @@ const data = [
 type Props = {
     width?: number;
     height?: number;
+    data?: EntryExit[];
 };
 
-const RadarCharts = ({ width, height }: Props) => {
+const RadarCharts = ({ width, height, data }: Props) => {
     const theme = useTheme();
     return (
-        <RadarChart
-            width={width}
-            height={height}
-            cx="50%"
-            cy="50%"
-            outerRadius="80%"
-            data={data}
-        >
-            <PolarGrid />
-            <PolarAngleAxis dataKey="subject" />
-            <PolarRadiusAxis />
-            <Radar
-                name="Mike"
-                dataKey="A"
-                stroke={theme.palette.primary.main}
-                fill={theme.palette.success.main}
-                fillOpacity={0.6}
-            />
-        </RadarChart>
+        <>
+            <Typography variant="body2" fontWeight="bold">
+                Entrée / Sortie par type
+            </Typography>
+            <RadarChart
+                width={width}
+                height={height}
+                cx="50%"
+                cy="50%"
+                outerRadius="80%"
+                data={data}
+            >
+                <PolarGrid />
+                <PolarAngleAxis dataKey="type" />
+                <PolarRadiusAxis />
+                <Radar
+                    dataKey="entry"
+                    stroke={theme.palette.primary.main}
+                    fill={theme.palette.primary.main}
+                    fillOpacity={0.6}
+                />
+                <Radar
+                    dataKey="exit"
+                    stroke={theme.palette.warning.main}
+                    fill={theme.palette.warning.main}
+                    fillOpacity={0.6}
+                />
+            </RadarChart>
+        </>
     );
 };
 
