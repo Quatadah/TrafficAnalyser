@@ -3,15 +3,18 @@ import Box from "@mui/material/Box";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import { width } from "@mui/system";
 import React from "react";
+import { traffic } from "./charts/Linecharts";
+import { trafficDate } from "./charts/Barcharts";
 
 type Props = {
     /// <reference path="" />
     children?: React.ReactElement;
     fullScreen?: boolean;
     chart?: React.FC;
+    trafficData?: traffic | trafficDate;
 };
 
-const Card = ({ children, fullScreen = true, chart }: Props) => {
+const Card = ({ children, fullScreen = true, chart, trafficData }: Props) => {
     const [open, setOpen] = React.useState(false);
 
     return (
@@ -49,7 +52,8 @@ const Card = ({ children, fullScreen = true, chart }: Props) => {
                     }}
                 >
                     <>
-                        {chart && chart({ width: 700, height: 400 })}
+                        {chart &&
+                            chart({ width: 900, height: 400, trafficData })}
                         <Button
                             variant="contained"
                             onClick={() => setOpen(false)}
@@ -64,7 +68,7 @@ const Card = ({ children, fullScreen = true, chart }: Props) => {
                 id="chartContainer"
                 className="flex flex-col justify-center items-center relative bottom-3"
             >
-                {chart && chart({ width: 300, height: 250 })}
+                {chart && chart({ width: 300, height: 250, trafficData })}
             </Box>
             {children && children}
         </Box>

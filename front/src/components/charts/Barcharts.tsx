@@ -10,42 +10,52 @@ import {
     Tooltip,
     Legend,
 } from "recharts";
+import { traffic } from "./Linecharts";
 
-interface ChartData {
-    name: string;
-    sales: number;
-    profit: number;
+export interface trafficDate {
+    direction: string;
+    values: {
+        date: string;
+        numberPL: number;
+        numberVL: number;
+        number2R: number;
+    }[];
 }
-
-const data: ChartData[] = [
-    { name: "Jan", sales: 4000, profit: 2400 },
-    { name: "Feb", sales: 3000, profit: 1398 },
-    { name: "Mar", sales: 2000, profit: 9800 },
-    { name: "Apr", sales: 2780, profit: 3908 },
-    { name: "May", sales: 1890, profit: 4800 },
-    { name: "Jun", sales: 2390, profit: 3800 },
-    { name: "Jul", sales: 3490, profit: 4300 },
-];
 
 type Props = {
     width?: number;
     height?: number;
+    trafficData?: trafficDate;
 };
 
-const BarChartExample: React.FC = ({ width = 700, height = 400 }: Props) => {
+const BarChartExample: React.FC = ({
+    width = 700,
+    height = 400,
+    trafficData,
+}: Props) => {
     const theme = useTheme();
     return (
         <>
-            <Typography variant="body1">BarChart</Typography>
-            <BarChart width={width} height={height} data={data}>
-                <XAxis dataKey="name" />
-                <YAxis />
-                <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-                <Tooltip />
-                <Legend />
-                <Bar dataKey="sales" fill={theme.palette.primary.main} />
-                <Bar dataKey="profit" fill={theme.palette.secondary.main} />
-            </BarChart>
+            <Typography variant="body1" fontWeight={"bold"}>
+                Traffic {trafficData?.direction}
+            </Typography>
+            {trafficData && (
+                <BarChart
+                    width={width}
+                    height={height}
+                    data={trafficData.values}
+                    barSize={200}
+                >
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="numberPL" fill={theme.palette.warning.main} />
+                    <Bar dataKey="numberVL" fill={theme.palette.primary.main} />
+                    <Bar dataKey="number2R" fill={theme.palette.success.main} />
+                </BarChart>
+            )}
         </>
     );
 };

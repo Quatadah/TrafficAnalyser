@@ -20,6 +20,7 @@ const App = () => {
                     mode,
                     primary: {
                         main: "#31978C",
+                        light: "#6FCF97",
                     },
                     secondary: {
                         main: "#435055",

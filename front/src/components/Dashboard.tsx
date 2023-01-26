@@ -1,4 +1,11 @@
-import { ButtonGroup, IconButton, Typography, useTheme } from "@mui/material";
+import {
+    ButtonGroup,
+    IconButton,
+    Typography,
+    useTheme,
+    Select,
+    MenuItem,
+} from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect } from "react";
 import Card from "./Card";
@@ -13,6 +20,12 @@ import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import TextField from "@mui/material/TextField";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import SpeedChart from "./charts/SpeedChart";
+import {
+    getAllDirections,
+    getDataByDirection,
+} from "../services/averageTrafficByHour";
+import { getDataByDirectionDate } from "../services/averageTrafficByDate";
 
 type Props = {
     onThemeChange: (theme: string) => void;
@@ -24,6 +37,16 @@ const Dashboard = ({ onThemeChange }: Props) => {
     const [value, setValue] = React.useState<Date | null>(new Date());
 
     const theme = useTheme();
+
+    const [direction, setDirection] = React.useState("vers BEC");
+
+    const [trafficDataByDay, setTrafficDataByDay] = React.useState(
+        getDataByDirectionDate(direction)
+    );
+    const [trafficDataByHour, setTrafficDataByHour] = React.useState(
+        getDataByDirection(direction)
+    );
+    const directions = getAllDirections();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -48,18 +71,44 @@ const Dashboard = ({ onThemeChange }: Props) => {
                     {time}
                 </Typography>
                 <Box className="flex justify-center items-center space-x-2">
-                    <LocalizationProvider
+                    <Select
                         size="small"
-                        dateAdapter={AdapterLuxon}
+                        value={date}
+                        onChange={(e) => {
+                            setDate(e.target.value);
+                        }}
                     >
-                        <DatePicker
-                            value={value}
-                            onChange={(newValue) => {
-                                setValue(newValue);
-                            }}
-                            renderInput={(params) => <TextField {...params} />}
-                        />
-                    </LocalizationProvider>
+                        <MenuItem value={new Date().toLocaleDateString()}>
+                            Today
+                        </MenuItem>
+                        <MenuItem value={new Date().toLocaleDateString()}>
+                            Yesterday
+                        </MenuItem>
+                        <MenuItem value={new Date().toLocaleDateString()}>
+                            Last 7 days
+                        </MenuItem>
+                        <MenuItem value={new Date().toLocaleDateString()}>
+                            Last 30 days
+                        </MenuItem>
+                    </Select>
+                    <Select
+                        size="small"
+                        value={direction}
+                        onChange={(e) => {
+                            setDirection(e.target.value);
+                            setTrafficDataByHour(
+                                getDataByDirection(e.target.value)
+                            );
+                            setTrafficDataByDay(
+                                getDataByDirectionDate(e.target.value)
+                            );
+                        }}
+                    >
+                        {directions.map((direction) => (
+                            <MenuItem value={direction}>{direction}</MenuItem>
+                        ))}
+                    </Select>
+
                     <IconButton
                         onClick={() => {
                             onThemeChange(theme.palette.mode);
@@ -74,18 +123,24 @@ const Dashboard = ({ onThemeChange }: Props) => {
                     </IconButton>
                 </Box>
             </Box>
-            <Box className="flex space-x-3 w-full md:h-4/5 h-1/5">
+            <Box className="flex space-x-3 w-full md:h-2/5 h-1/5">
                 <Box className="w-1/4 h-full">
-                    <Card chart={LineChartExample} />
+                    <Card
+                        chart={LineChartExample}
+                        trafficData={trafficDataByHour}
+                    />
                 </Box>
                 <Box className="w-1/4">
-                    <Card chart={BarChartExample} />
+                    <Card
+                        chart={BarChartExample}
+                        trafficData={trafficDataByDay}
+                    />
                 </Box>
                 <Box className="w-1/4">
                     <Card chart={PieChartExample} />
                 </Box>
                 <Box className="w-1/4">
-                    <Card chart={RadarChart}></Card>
+                    <Card chart={RadarChart} />
                 </Box>
             </Box>
             <Box id="aze" className="flex space-x-3 w-full h-full">
@@ -95,7 +150,7 @@ const Dashboard = ({ onThemeChange }: Props) => {
                     </Card>
                 </Box>
                 <Box className="w-1/4">
-                    <Card></Card>
+                    <Card chart={SpeedChart} />
                 </Box>
             </Box>{" "}
         </Box>
