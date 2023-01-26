@@ -16,16 +16,17 @@ import PieChartExample from "./charts/Piecharts";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import RadarChart from "./charts/Radarcharts";
-import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
-import TextField from "@mui/material/TextField";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import SpeedChart from "./charts/SpeedChart";
 import {
     getAllDirections,
     getDataByDirection,
 } from "../services/averageTrafficByHour";
 import { getDataByDirectionDate } from "../services/averageTrafficByDate";
+import {
+    getAllDates,
+    getPostsByDate,
+} from "../services/numberOfVehiclesPerPost";
+import { getEntryExitByDate } from "../services/entryExit";
 
 type Props = {
     onThemeChange: (theme: string) => void;
@@ -35,14 +36,27 @@ const Dashboard = ({ onThemeChange }: Props) => {
     const [date, setDate] = React.useState(new Date().toLocaleDateString());
     const [time, setTime] = React.useState(new Date().toLocaleTimeString());
     const [value, setValue] = React.useState<Date | null>(new Date());
+    const availableDates = getAllDates();
+    const [selectedDate, setSelectedDate] = React.useState<string>(
+        availableDates[0]
+    );
 
     const theme = useTheme();
 
     const [direction, setDirection] = React.useState("vers BEC");
 
+    const [entryExit, setEntryExit] = React.useState(
+        getEntryExitByDate(selectedDate)
+    );
+
+    const [VehiclesPerDate, setVehiclesPerDate] = React.useState(
+        getPostsByDate(selectedDate)
+    );
+
     const [trafficDataByDay, setTrafficDataByDay] = React.useState(
         getDataByDirectionDate(direction)
     );
+
     const [trafficDataByHour, setTrafficDataByHour] = React.useState(
         getDataByDirection(direction)
     );
@@ -73,23 +87,16 @@ const Dashboard = ({ onThemeChange }: Props) => {
                 <Box className="flex justify-center items-center space-x-2">
                     <Select
                         size="small"
-                        value={date}
+                        value={selectedDate}
                         onChange={(e) => {
-                            setDate(e.target.value);
+                            setSelectedDate(e.target.value);
+                            setVehiclesPerDate(getPostsByDate(e.target.value));
+                            setEntryExit(getEntryExitByDate(e.target.value));
                         }}
                     >
-                        <MenuItem value={new Date().toLocaleDateString()}>
-                            Today
-                        </MenuItem>
-                        <MenuItem value={new Date().toLocaleDateString()}>
-                            Yesterday
-                        </MenuItem>
-                        <MenuItem value={new Date().toLocaleDateString()}>
-                            Last 7 days
-                        </MenuItem>
-                        <MenuItem value={new Date().toLocaleDateString()}>
-                            Last 30 days
-                        </MenuItem>
+                        {availableDates.map((date) => (
+                            <MenuItem value={date}>{date}</MenuItem>
+                        ))}
                     </Select>
                     <Select
                         size="small"
@@ -125,22 +132,16 @@ const Dashboard = ({ onThemeChange }: Props) => {
             </Box>
             <Box className="flex space-x-3 w-full md:h-2/5 h-1/5">
                 <Box className="w-1/4 h-full">
-                    <Card
-                        chart={LineChartExample}
-                        trafficData={trafficDataByHour}
-                    />
+                    <Card chart={LineChartExample} data={trafficDataByHour} />
                 </Box>
                 <Box className="w-1/4">
-                    <Card
-                        chart={BarChartExample}
-                        trafficData={trafficDataByDay}
-                    />
+                    <Card chart={BarChartExample} data={trafficDataByDay} />
                 </Box>
                 <Box className="w-1/4">
-                    <Card chart={PieChartExample} />
+                    <Card chart={PieChartExample} data={VehiclesPerDate} />
                 </Box>
                 <Box className="w-1/4">
-                    <Card chart={RadarChart} />
+                    <Card chart={RadarChart} data={entryExit} />
                 </Box>
             </Box>
             <Box id="aze" className="flex space-x-3 w-full h-full">

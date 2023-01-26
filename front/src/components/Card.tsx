@@ -5,18 +5,19 @@ import { width } from "@mui/system";
 import React from "react";
 import { traffic } from "./charts/Linecharts";
 import { trafficDate } from "./charts/Barcharts";
+import { PostData } from "./charts/Piecharts";
+import { EntryExit } from "../services/entryExit";
 
 type Props = {
     /// <reference path="" />
     children?: React.ReactElement;
     fullScreen?: boolean;
     chart?: React.FC;
-    trafficData?: traffic | trafficDate;
+    data?: traffic | trafficDate | PostData[] | EntryExit[];
 };
 
-const Card = ({ children, fullScreen = true, chart, trafficData }: Props) => {
+const Card = ({ children, fullScreen = true, chart, data }: Props) => {
     const [open, setOpen] = React.useState(false);
-
     return (
         <Box
             className="h-full rounded-md"
@@ -53,7 +54,7 @@ const Card = ({ children, fullScreen = true, chart, trafficData }: Props) => {
                 >
                     <>
                         {chart &&
-                            chart({ width: 900, height: 400, trafficData })}
+                            chart({ width: 900, height: 400, data: data })}
                         <Button
                             variant="contained"
                             onClick={() => setOpen(false)}
@@ -68,7 +69,7 @@ const Card = ({ children, fullScreen = true, chart, trafficData }: Props) => {
                 id="chartContainer"
                 className="flex flex-col justify-center items-center relative bottom-3"
             >
-                {chart && chart({ width: 300, height: 250, trafficData })}
+                {chart && chart({ width: 300, height: 250, data: data })}
             </Box>
             {children && children}
         </Box>

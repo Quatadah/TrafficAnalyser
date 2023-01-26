@@ -1950,34 +1950,33 @@ export const getAllDirections = () => {
 };
 
 export const getNumberByDirection = (direction: string) => {
-    const data = trafficData.filter((data) => data.direction === direction);
-    return data;
+    return trafficData.filter((data) => data.direction === direction);
 };
 
-export const getPL = (number: number, direction: string) => {
+export const getPL = (date: string, direction: string) => {
     return trafficData.filter(
         (data) =>
-            data.direction === direction &&
             data.type === "PL" &&
-            data.number === number
+            data.date === date &&
+            data.direction === direction
     )[0]?.number;
 };
 
-export const getVL = (number: number, direction: string) => {
+export const getVL = (date: string, direction: string) => {
     return trafficData.filter(
         (data) =>
-            data.direction === direction &&
+            data.date === date &&
             data.type === "VL" &&
-            data.number === number
+            data.direction === direction
     )[0]?.number;
 };
 
-export const get2R = (number: number, direction: string) => {
+export const get2R = (date: string, direction: string) => {
     return trafficData.filter(
         (data) =>
-            data.direction === direction &&
             data.type === "2R" &&
-            data.number === number
+            data.date === date &&
+            data.direction === direction
     )[0]?.number;
 };
 
@@ -2016,9 +2015,9 @@ export const reduceByDirection = () => {
                 data.map((data) => {
                     return {
                         date: data.date,
-                        numberPL: getPL(data.number, direction),
-                        numberVL: getVL(data.number, direction),
-                        number2R: get2R(data.number, direction),
+                        numberPL: getPL(data.date, direction),
+                        numberVL: getVL(data.date, direction),
+                        number2R: get2R(data.date, direction),
                     };
                 })
             ),

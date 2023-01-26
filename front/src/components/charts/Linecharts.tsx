@@ -12,12 +12,6 @@ import {
 } from "recharts";
 
 import { Typography } from "@mui/material";
-import {
-    getAllDirections,
-    getDataByDirection,
-} from "../../services/averageTrafficByHour";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
 
 export interface traffic {
     values: { avgPL: number; avgVL: number; avg2R: number; hour: number }[];
@@ -27,19 +21,19 @@ export interface traffic {
 type Props = {
     width?: number;
     height?: number;
-    trafficData?: traffic;
+    data?: traffic;
 };
 
-const LineCharts: React.FC = ({ width, height, trafficData }: Props) => {
+const LineCharts: React.FC = ({ width, height, data }: Props) => {
     const theme = useTheme();
     return (
         <>
             <Typography variant="body1" fontWeight={"bold"}>
-                Traffic {trafficData?.direction}
+                Traffic {data?.direction}
             </Typography>
-            {trafficData && (
+            {data && (
                 <ResponsiveContainer width={width} height={height}>
-                    <LineChart data={trafficData.values} barSize={40}>
+                    <LineChart data={data.values} barSize={40}>
                         <XAxis dataKey="hour" />
                         <YAxis />
                         <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />

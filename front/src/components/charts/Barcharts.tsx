@@ -10,7 +10,6 @@ import {
     Tooltip,
     Legend,
 } from "recharts";
-import { traffic } from "./Linecharts";
 
 export interface trafficDate {
     direction: string;
@@ -25,25 +24,25 @@ export interface trafficDate {
 type Props = {
     width?: number;
     height?: number;
-    trafficData?: trafficDate;
+    data?: trafficDate;
 };
 
 const BarChartExample: React.FC = ({
     width = 700,
     height = 400,
-    trafficData,
+    data,
 }: Props) => {
     const theme = useTheme();
     return (
         <>
             <Typography variant="body1" fontWeight={"bold"}>
-                Traffic {trafficData?.direction}
+                Traffic {data?.direction}
             </Typography>
-            {trafficData && (
+            {data && (
                 <BarChart
                     width={width}
                     height={height}
-                    data={trafficData.values}
+                    data={data.values}
                     barSize={200}
                 >
                     <XAxis dataKey="date" />
