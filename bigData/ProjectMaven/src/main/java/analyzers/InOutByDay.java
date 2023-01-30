@@ -41,7 +41,7 @@ public class InOutByDay {
 
     }
 
-    public static class InOutByDayReducer extends Reducer<Text, Text, Text,Text> {
+    public static class InOutByDayCombiner extends Reducer<Text, Text, Text,Text> {
 
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
@@ -52,9 +52,22 @@ public class InOutByDay {
             }
             context.write(key, new Text(String.valueOf(count)));
 
+        }
+    }
+
+    public static class InOutByDayReducer extends Reducer<Text, Text, Text,Text> {
+        @Override
+        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+            int num = 0;
+            for (Text val : values) {
+                num = Integer.parseInt(val.toString());
+            }
+            context.write(key, new Text(String.valueOf(num)));
+
+        }
     }
 }
 
 
 
-}
+

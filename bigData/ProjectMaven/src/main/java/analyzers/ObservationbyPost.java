@@ -34,7 +34,7 @@ public class ObservationbyPost {
 
     }
 
-    public static class ObservationbyPostReducer extends Reducer<Text, Text, Text, Text> {
+    public static class ObservationbyPostCombiner extends Reducer<Text, Text, Text, Text> {
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
             int count = 0;
@@ -43,6 +43,17 @@ public class ObservationbyPost {
             }
             context.write(new  Text(key),
                     new Text(String.valueOf(count)));
+        }
+    }
+
+    public static class ObservationbyPostReducer extends Reducer<Text, Text, Text, Text> {
+        @Override
+        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+            int num = 0;
+            for (Text val : values) {
+                num = Integer.parseInt(val.toString());
+            }
+            context.write(key, new Text(String.valueOf(num)));
         }
     }
 

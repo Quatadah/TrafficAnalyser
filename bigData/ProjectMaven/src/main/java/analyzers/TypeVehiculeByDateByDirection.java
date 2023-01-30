@@ -30,13 +30,20 @@ public class TypeVehiculeByDateByDirection {
                 if (commonData.getVehicleType().toUpperCase(Locale.ROOT).equals("UT"))
                     commonData.setVehicleType("VL");
 
-                type.set(commonData.getVehicleType().toUpperCase(Locale.ROOT)+","
-                        +commonData.getDate()+","+commonData.getDirection());
+                type.set(commonData.getDate()+","+commonData.getVehicleType().toUpperCase(Locale.ROOT)+","
+                        +commonData.getDirection());
                     context.write(type, new Text(commonData.toString()));
         }
 
     }
-
+    public static class TypeVehiculeByDateByDirectionCombiner extends Reducer<Text, Text, Text, Text> {
+        @Override
+        public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+            for (Text val : values) {
+                context.write(new  Text(key), new Text(val));
+            }
+        }
+    }
     public static class TypeVehiculeByDateByDirectionReducer extends Reducer<Text, Text, Text, Text> {
         @Override
         public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
@@ -44,9 +51,8 @@ public class TypeVehiculeByDateByDirection {
             for (Text val : values) {
                     count++;
             }
-            context.write(new  Text(key.toString().split(",")[1]),
-                    new Text(count+","
-                            +key.toString().split(",")[2]+","+key.toString().split(",")[0]));
+            context.write(new  Text(key),
+                    new Text(String.valueOf(count)));
         }
     }
 }
