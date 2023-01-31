@@ -39,7 +39,10 @@ Le dashboard comprend également une fonctionnalité de sélection qui permet au
   npm i
   npm run start
 ```
-
+## Commande pour lancer le jar 
+```bash
+HADOOP_CLASSPATH=/etc/hbase/conf:$(hbase mapredcp) yarn jar ProjectMaven.jar /user/auber/data_ple/citytraffic/ResultatCSV/ outPutCleanedData ouputAnalyse1 ouputAnalyse2 ouputAnalyse3 ouputAnalyse4 ouputAnalyse5
+```
 
 ## Résultat final :
 ![ta-dashboard](https://user-images.githubusercontent.com/73450837/215629079-aa5cbe05-b856-43ea-9c61-0e08d59deb6f.png)
