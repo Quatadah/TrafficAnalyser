@@ -5,7 +5,6 @@ import { useEffect, useRef, useState } from "react";
 import { Box } from "@mui/system";
 import CustomMarker from "./CustomMarker";
 import data from "../data/posts";
-import Fullscreen from "react-leaflet-fullscreen-plugin";
 import { useTheme } from "@mui/material";
 
 type Props = {
@@ -95,20 +94,3 @@ const Map = (props: Props) => {
 };
 
 export default Map;
-
-/* 
-<Fullscreen
-                    eventHandlers={{
-                        enterFullscreen: (event) =>
-                            console.log("entered fullscreen", event),
-                        exitFullscreen: (event) =>
-                            console.log("exited fullscreen", event),
-                    }}
-                    position="topleft" // change the position of the button can be topleft, topright, bottomright or bottomleft, default topleft
-                    title="Show me the fullscreen !" // change the title of the button, default Full Screen
-                    titleCancel="Exit fullscreen mode" // change the title of the button when fullscreen is on, default Exit Full Screen
-                    forceSeparateButton={true} // force separate button to detach from zoom buttons, default false
-                    forcePseudoFullscreen={true} // force use of pseudo full screen even if full screen API is available, default false
-                    fullscreenElement={false} // Dom element to render in full screen, false by default, fallback to map._container
-                />
-*/
