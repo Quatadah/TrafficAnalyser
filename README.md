@@ -8,7 +8,7 @@ Ce projet a été réalisé pour visualiser les données récoltées par des cap
 ## Technologies utilisées
 - Hadoop
 - Apache Hbase
-- React 
+- React js
 - Tailwindcss
 - React-Leaflet
 - Material UI
