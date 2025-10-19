@@ -17,7 +17,6 @@ Ce projet a été réalisé pour visualiser les données récoltées par des cap
 ## Nettoyage et analyse de données
 
 Les données collectées par les capteurs de circulation sont stockées dans un système de stockage distribué Hadoop. Ce système permet de traiter de grandes quantités de données en parallèle sur plusieurs nœuds.
-
 Lors du traitement des données, le modèle MapReduce est utilisé pour distribuer les tâches de traitement sur les différents nœuds. Le modèle MapReduce consiste en deux étapes: la première étape de Map transforme les données en un format utilisable, tandis que la seconde étape de Reduce agrège les données en une sortie consolidée.
 
 Avant d'être stockées dans Hadoop, les données ont été nettoyées et normalisées pour éliminer les données erronées et garantir que les données sont cohérentes. Ce processus de nettoyage de données est important pour garantir que les analyses produites par le dashboard sont précises et fiables.
