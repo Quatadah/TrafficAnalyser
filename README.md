@@ -29,7 +29,7 @@ Avant d'être stockées dans Hadoop, les données ont été nettoyées et normal
 - Nombre d'entrées/sorties par type de véhicules et par date
 
 ## Fonctionnalités supplémentaires
-Le dashboard comprend également une fonctionnalité de sélection qui permet aux utilisateurs de choisir un poste de capteur spécifique et d'afficher les données pour ce poste uniquement. De la même manière, le dashboard comprend une fonctionnalité de sélection de date qui permet aux utilisateurs de choisir une date spécifique et de visualiser les données pour ce jour uniquement.
+Le tableau de bord comprend également une fonctionnalité de sélection qui permet aux utilisateurs de choisir un poste de capteur spécifique et d'afficher les données pour ce poste uniquement. De la même manière, le tableau de bord comprend une fonctionnalité de sélection de date qui permet aux utilisateurs de choisir une date spécifique et de visualiser les données pour ce jour uniquement.
 
 ## Installation
 ```bash
